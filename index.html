@@ -1,0 +1,116 @@
+<html>
+
+<head><title>Campus Sentiment</title>
+<!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  var heat = L.heatLayer(heat_points, {radius:30,blur:2,opacity:0.8,maxZoom:11}).addTo(map);
+-->
+<!-- Leaflet CSS File  
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+-->
+<link rel="stylesheet" href="leaflet.css">
+<link rel="stylesheet" href="MyMapStyles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />     
+</head>
+
+<body>
+<!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/Leaflet"></script>
+-->
+  <!-- Leaflet Javascript File 
+   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin="">
+  </script>  >> Contents copied to leaflet.js local file and used below
+  <script src="http://Leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+  >> Contents from above link copied to local file leaflet-heat.js and used below
+  -->
+  <script src="leafapp.js"></script>
+  <script src="leaflet.js"></script>
+  <script src="leaflet-heat.js"></script>
+  <script src="leaflet.ajax.min.js"></script>
+  <script src="heat_points.js"></script>
+  <script src="heat_points_uofm.js"></script>
+  <script src="heat_points_msu.js"></script>
+  <script src="heat_points_wsu.js"></script>
+  <script src="heat_points_ou.js"></script>
+  
+  <div class="row justify-content-center" >
+    <h4>Select College </h4>
+    <select class="select" id="College" name="College" aria-label="College"></select>
+    &ensp;
+    <button type="button" id="submit" onclick= panToLocn()>See Campus</button>  
+  </div>
+
+  <div id="map" style="width: 500px; height: 600px"></div>
+  <script>
+    // Set default values to create map for UofM @ Ann Arbor.
+    selCollege_lat = 42.275051;
+    selCollege_long = -83.741478;
+    heatPointVar = 'heat_points_uofm';
+    var map = L.map('map', 
+    {
+    center: [selCollege_lat, selCollege_long],  
+    //center: [42.275051, -83.741478],
+    zoom: 12
+    });
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+ ('#map').height($(window).height()+'px');
+  </script>
+  <script>
+    var heat = L.heatLayer(heat_points_uofm, {radius:10,blur:5,opacity:0.6,maxZoom:11}).addTo(map);
+    L.heatLayer(heat_points_msu, {radius:10,blur:5,opacity:0.6,maxZoom:11}).addTo(map);
+    L.heatLayer(heat_points_wsu, {radius:10,blur:5,opacity:0.6,maxZoom:11}).addTo(map);
+    L.heatLayer(heat_points_ou, {radius:10,blur:5,opacity:0.6,maxZoom:11}).addTo(map);    
+  </script>
+  <script>
+    function panToLocn() {
+    //document.write("Hello-pan");
+    //map.flyTo([selCollege_lat, selCollege_long], 12);
+    var e = document.getElementById("College");
+    var college_index = e.value;
+    test_value = String(college_index);
+    test_value = test_value*1;
+    switch(test_value) {
+        case 0:
+          // UofM Data
+          selCollege_lat = 42.275051;
+          selCollege_long = -83.741478;
+          heatPointVar = 'heat_points_uofm';
+          map.flyTo([selCollege_lat, selCollege_long], 12);
+          //document.write("Hello-1");
+          break;
+            
+        case 1:
+          // MSU Data
+          selCollege_lat = 42.729721;
+          selCollege_long = -84.481491;
+          heatPointVar = 'heat_points_msu';
+          map.flyTo([selCollege_lat, selCollege_long], 12);
+          //document.write("Hello-0");
+          break;    
+        case 2:
+          // WSU Data
+          selCollege_lat = 42.356991;
+          selCollege_long = -83.065201;
+          heatPointVar = 'heat_points_wsu';
+          map.flyTo([selCollege_lat, selCollege_long], 12);
+          //document.write("Hello-2");
+          break;
+        case 3:
+          // OU Data  42.675426, -83.215301 // 42.669397, -83.207513
+          selCollege_lat = 42.669397;
+          selCollege_long = -83.207513;
+          heatPointVar = 'heat_points_ou';
+          map.flyTo([selCollege_lat, selCollege_long], 12);
+          //document.write("Hello-2");
+        break;
+        }
+    }    
+    populateColleges(); 
+  </script>
+</body>
+</html
